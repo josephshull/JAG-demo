@@ -33,17 +33,43 @@ CITIES = [
     ("Portland", "OR"), ("Boston", "MA"), ("Chicago", "IL"), ("Oakland", "CA"),
     ("Atlanta", "GA"), ("Minneapolis", "MN"), ("Pittsburgh", "PA"),
 ]
+UTAH_CITIES = [
+    ("Salt Lake City", "UT"), ("Logan", "UT"), ("Moab", "UT"), ("Cedar City", "UT"),
+    ("Vernal", "UT"), ("Price", "UT"), ("Ogden", "UT"), ("Provo", "UT"),
+    ("Kanab", "UT"), ("Richfield", "UT"),
+]
 COMPANIES = [
     "Lumen Loop", "Northwind Labs", "Halcyon Systems", "Brightline Robotics",
     "Outpost Analytics", "Meridian Cloud", "Ferrous Studio", "Quanta Health",
     "Saltwater Software", "Riverstone AI", "Pinecone Logistics", "Foglamp Media",
     "Tessellate", "Ironwood Bio", "Catkin Networks", "Polaris Foundry",
 ]
+CONSERVATION_ORGS = [
+    "Great Basin Institute", "American Conservation Experience (ACE)",
+    "Conservation Legacy / Southwest Conservation Corps", "Utah Conservation Corps",
+    "BLM (seasonal, via Great Basin Institute)", "USFS Manti-La Sal NF (seasonal)",
+    "Utah Division of Wildlife Resources (seasonal)", "Grand Canyon Trust",
+    "Sageland Collaborative", "Stantec — Ecological Services",
+    "SWCA Environmental Consultants", "Bio-West, Inc.",
+    "Wild Utah Project", "Capitol Reef Field Station (USU)",
+]
 SCHOOLS = [
     "Carnegie Mellon University", "University of Michigan", "Georgia Tech",
     "UT Austin", "UC Berkeley", "Northeastern University", "Purdue University",
     "University of Washington", "University of Illinois Urbana-Champaign",
     "Rutgers University", "Arizona State University", "Boston University",
+]
+CONSERVATION_SCHOOLS = [
+    "Utah State University", "University of Utah", "Northern Arizona University",
+    "University of Montana", "Colorado State University", "Prescott College",
+    "Westminster College (SLC)", "Southern Utah University",
+    "University of Wyoming", "Humboldt State University",
+]
+CONSERVATION_DEGREES = [
+    "B.S. Wildlife Biology", "B.S. Rangeland Ecology and Management",
+    "B.S. Environmental Science", "B.S. Natural Resource Management",
+    "B.S. Conservation Biology", "B.A. Environmental Studies",
+    "B.S. Ecology and Evolutionary Biology", "B.S. Forestry",
 ]
 
 ROLE_PROFILES: dict[str, dict] = {
@@ -147,6 +173,52 @@ ROLE_PROFILES: dict[str, dict] = {
         ],
         "certs": ["NN/g UX Certification"],
     },
+    "conservation": {
+        "skills": [
+            "vegetation surveys", "GPS/GNSS (Trimble, Garmin)", "ArcGIS Pro",
+            "ArcGIS Field Maps", "QGIS", "plant ID (Intermountain flora)",
+            "invasive species removal", "herbicide application", "chainsaw (S-212)",
+            "wildland fire (S-130/S-190)", "Wilderness First Aid", "ATV/UTV operation",
+            "4WD off-road driving", "data collection (Survey123, Collector)",
+            "riparian restoration", "wildlife observation", "rangeland monitoring",
+            "AIM/MIM protocols", "backcountry navigation", "trail maintenance",
+        ],
+        "bullets": [
+            "Led {n}-person crew conducting {protocol} surveys across {n2} plots in {region}",
+            "Treated {acres} acres of {invasive} using {method}; achieved {pct}% mortality on follow-up",
+            "Collected vegetation and soil data on {n} AIM plots in {region} for BLM monitoring",
+            "Restored {miles} miles of riparian corridor via willow staking and bank stabilization",
+            "Operated chainsaw and hand tools to remove {invasive} from {acres} acres of {habitat}",
+            "Logged {n} wildlife observations into {database}; supported {species} habitat assessment",
+            "Mapped {miles} miles of fenceline using Trimble GPS; submetric accuracy",
+            "Trained {n} seasonal techs on plant ID, data protocols, and field safety",
+            "Maintained {miles} miles of backcountry trail with hand crew; packed in via {transport}",
+            "Wrote daily field notes and uploaded data nightly via {platform}; zero missing records over {weeks} weeks",
+            "Coordinated with {agency} biologist on {project} surveys across {acres} acres",
+            "Spike-camped for {n}-day hitches in {region}; carried {weight}lb pack in remote terrain",
+        ],
+        "summary": (
+            "{years}+ years of conservation field work across {region_summary}, "
+            "with deep experience in {focus}. Comfortable spike-camping for "
+            "extended hitches, navigating off-trail, and running data collection "
+            "to agency protocol."
+        ),
+        "summary_focus": [
+            "vegetation monitoring and AIM/MIM protocols",
+            "invasive species treatment and native plant restoration",
+            "rangeland health assessment for BLM and USFS partners",
+            "riparian and sage-grouse habitat work",
+            "wildlife survey support and habitat assessment",
+        ],
+        "certs": [
+            "S-130/S-190 Wildland Fire",
+            "S-212 Wildland Fire Chainsaws",
+            "Wilderness First Responder (WFR)",
+            "Wilderness First Aid (WFA)",
+            "Utah Pesticide Applicator (Non-Commercial)",
+            "FAA Part 107 (small UAS)",
+        ],
+    },
 }
 
 DEFAULT_PROFILE_KEY = "software engineer"
@@ -217,7 +289,8 @@ def fill_bullet(template: str, rng: random.Random) -> str:
         "topic": rng.choice(["A/B testing", "causal inference", "feature engineering"]),
         "model": rng.choice(["ranking", "churn", "fraud", "recommendation", "demand"]),
         "n": rng.choice([3, 5, 8, 12, 20, 50, 120]),
-        "pct": rng.choice([12, 18, 24, 30, 40, 55]),
+        "n2": rng.choice([24, 60, 120, 240]),
+        "pct": rng.choice([12, 18, 24, 30, 40, 55, 70, 85]),
         "ms": rng.choice([40, 80, 120, 200]),
         "hr": rng.choice([2, 4, 6, 9]),
         "min": rng.choice([8, 15, 30, 45]),
@@ -225,6 +298,51 @@ def fill_bullet(template: str, rng: random.Random) -> str:
         "year": rng.choice([24, 25, 26]),
         "old_score": 62,
         "new_score": 94,
+        # Conservation-specific fillers.
+        "protocol": rng.choice([
+            "AIM (Assessment, Inventory, and Monitoring)", "MIM (Multiple Indicator Monitoring)",
+            "line-point intercept", "Daubenmire", "belt transect", "rangeland health",
+        ]),
+        "region": rng.choice([
+            "the Great Basin", "the Colorado Plateau", "the Wasatch Front",
+            "the West Desert", "the Uinta Mountains", "southeastern Utah canyon country",
+            "the Bear River watershed", "the Henry Mountains",
+        ]),
+        "region_summary": rng.choice([
+            "the Great Basin and Colorado Plateau",
+            "Utah's high desert and montane ecosystems",
+            "BLM and USFS lands in the Intermountain West",
+        ]),
+        "invasive": rng.choice([
+            "cheatgrass", "Russian olive", "tamarisk (saltcedar)", "Russian knapweed",
+            "musk thistle", "leafy spurge", "Dyer's woad", "perennial pepperweed",
+        ]),
+        "method": rng.choice([
+            "cut-stump herbicide treatment", "foliar spray (imazapyr)",
+            "mechanical removal", "prescribed grazing", "hand-pulling crews",
+        ]),
+        "habitat": rng.choice([
+            "sagebrush steppe", "pinyon-juniper woodland", "riparian corridor",
+            "mixed-conifer forest", "alpine meadow", "salt desert shrubland",
+        ]),
+        "acres": rng.choice([45, 120, 280, 640, 1200, 3500]),
+        "miles": rng.choice([2, 6, 14, 28, 60]),
+        "database": rng.choice(["WRI tracker", "AGOL Field Maps", "Survey123", "iNaturalist"]),
+        "species": rng.choice([
+            "greater sage-grouse", "pronghorn", "mule deer", "Bonneville cutthroat trout",
+            "boreal toad", "Utah prairie dog", "pygmy rabbit",
+        ]),
+        "transport": rng.choice(["mule string", "raft", "ATV", "foot from a 4WD spike camp"]),
+        "platform": rng.choice(["AGOL", "Survey123", "Field Maps", "Trimble TerraSync"]),
+        "agency": rng.choice([
+            "BLM", "USFS", "UDWR", "NPS", "Utah Division of Wildlife Resources",
+            "USFWS", "Utah State Parks",
+        ]),
+        "project": rng.choice([
+            "sage-grouse lek", "pinyon-juniper removal", "stream temperature",
+            "raptor nest", "fenceline modification", "spring restoration",
+        ]),
+        "weight": rng.choice([45, 55, 65, 75]),
     }
     fillers["old"] = fillers.get("old", "v1")
     fillers["new"] = fillers.get("new", "v2")
@@ -240,54 +358,91 @@ def build_resume(
     years: int,
     rng: random.Random,
 ) -> Resume:
-    _key, profile = pick_profile(role)
-    city, state = rng.choice(CITIES)
+    key, profile = pick_profile(role)
+    is_conservation = key == "conservation"
+
+    cities = UTAH_CITIES if is_conservation else CITIES
+    orgs = CONSERVATION_ORGS if is_conservation else COMPANIES
+    schools = CONSERVATION_SCHOOLS if is_conservation else SCHOOLS
+    degrees = CONSERVATION_DEGREES if is_conservation else [
+        "B.S. Computer Science", "B.A. Cognitive Science", "B.S. Math", "B.S. Information Systems",
+    ]
+    job_locations = [f"{c}, {s}" for c, s in cities] + (["Remote"] if not is_conservation else [])
+
+    city, state = rng.choice(cities)
     handle = name.lower().replace(" ", ".")
     email = f"{handle}@example.com"
     phone = f"({rng.randint(200, 989)}) {rng.randint(200, 989)}-{rng.randint(1000, 9999)}"
-    website = f"{handle.replace('.', '')}.dev"
+    website = "" if is_conservation else f"{handle.replace('.', '')}.dev"
 
-    summary = profile["summary"].format(
-        years=years,
-        area=rng.choice(["platform", "growth", "search", "ML"]),
-        segment=rng.choice(["B2B SaaS", "consumer", "enterprise", "developer tools"]),
-        focus=rng.choice(profile["summary_focus"]),
-    )
+    if is_conservation:
+        summary = profile["summary"].format(
+            years=years,
+            region_summary=rng.choice([
+                "the Great Basin and Colorado Plateau",
+                "Utah's high desert and montane ecosystems",
+                "BLM and USFS lands across the Intermountain West",
+            ]),
+            focus=rng.choice(profile["summary_focus"]),
+        )
+    else:
+        summary = profile["summary"].format(
+            years=years,
+            area=rng.choice(["platform", "growth", "search", "ML"]),
+            segment=rng.choice(["B2B SaaS", "consumer", "enterprise", "developer tools"]),
+            focus=rng.choice(profile["summary_focus"]),
+        )
 
     n_jobs = max(2, min(4, years // 3 + 1))
     experience: list[Job] = []
     current_year = 2026
-    # Career progression: most recent (i=0) is most senior; oldest (i=n-1) is most junior.
-    progression = ["", "Senior ", "Staff ", "Lead "] if years > 8 else ["", "Senior "]
+
+    if is_conservation:
+        # Field-work career progression — most recent is most senior.
+        senior_titles = ["Crew Lead", "Field Coordinator", "Lead Field Technician"]
+        mid_titles = ["Field Technician II", "Senior Field Technician"]
+        junior_titles = ["Field Technician", "Seasonal Field Technician", "AmeriCorps Member"]
     for i in range(n_jobs):
         end_year = current_year if i == 0 else current_year - rng.randint(1, 2)
         start_year = end_year - rng.randint(1, 3)
         current_year = start_year
-        # Reverse so highest seniority lands on the most recent job.
-        rank = min(n_jobs - 1 - i, len(progression) - 1)
-        title_prefix = progression[rank]
-        # Strip an existing seniority word from the role so we don't get "Senior Senior X".
-        base_role = role
-        for prefix in ("Senior ", "Staff ", "Lead ", "Principal ", "Junior "):
-            if base_role.startswith(prefix):
-                base_role = base_role[len(prefix):]
-                break
+
+        if is_conservation:
+            # Pick title by reversed rank so most recent (i=0) = most senior.
+            rank = n_jobs - 1 - i
+            if rank == 0:
+                title = rng.choice(junior_titles)
+            elif rank == 1:
+                title = rng.choice(mid_titles)
+            else:
+                title = rng.choice(senior_titles)
+        else:
+            progression = ["", "Senior ", "Staff ", "Lead "] if years > 8 else ["", "Senior "]
+            rank = min(n_jobs - 1 - i, len(progression) - 1)
+            title_prefix = progression[rank]
+            base_role = role
+            for prefix in ("Senior ", "Staff ", "Lead ", "Principal ", "Junior "):
+                if base_role.startswith(prefix):
+                    base_role = base_role[len(prefix):]
+                    break
+            title = f"{title_prefix}{base_role}".strip()
+
         job = Job(
-            title=f"{title_prefix}{base_role}".strip(),
-            company=rng.choice(COMPANIES),
+            title=title,
+            company=rng.choice(orgs),
             start=f"{start_year}",
             end="Present" if i == 0 else f"{end_year}",
-            location=rng.choice([f"{c}, {s}" for c, s in CITIES] + ["Remote"]),
+            location=rng.choice(job_locations),
             bullets=[fill_bullet(b, rng) for b in rng.sample(profile["bullets"], k=min(4, len(profile["bullets"])))],
         )
         experience.append(job)
 
-    skills = rng.sample(profile["skills"], k=min(8, len(profile["skills"])))
+    skills = rng.sample(profile["skills"], k=min(10 if is_conservation else 8, len(profile["skills"])))
 
     edu_year = 2026 - years - rng.randint(0, 2)
     education = [Education(
-        degree=rng.choice(["B.S. Computer Science", "B.A. Cognitive Science", "B.S. Math", "B.S. Information Systems"]),
-        school=rng.choice(SCHOOLS),
+        degree=rng.choice(degrees),
+        school=rng.choice(schools),
         year=edu_year,
     )]
 

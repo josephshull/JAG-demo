@@ -45,8 +45,13 @@ The script picks a profile based on substring match in `--role`. Currently shipp
 - `product manager`
 - `data scientist`
 - `designer`
+- `conservation` (uses Utah cities, conservation orgs/schools, AIM/MIM/fire bullets)
 
 Anything else falls back to the software engineer profile. To add a new role, drop an entry into `ROLE_PROFILES` in `generate_resume.py`.
+
+## Demo artifacts
+
+[`demo/conservation/`](demo/conservation/) — base + 10 curated resume variants for a fictional conservation field-tech candidate, targeted at real Utah job postings (built live during the workshop).
 
 ## Layout
 
